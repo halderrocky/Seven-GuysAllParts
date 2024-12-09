@@ -1,17 +1,33 @@
 import edu.sdccd.cisc190.altscenes.FiveDodge;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import java.util.concurrent.CountDownLatch;
 
 public class FiveDodgeTest {
     private FiveDodge fiveDodge;
 
     @Before
-    public void setUp() {
-        Stage stage = new Stage(); // Mock Stage for testing
-        fiveDodge = new FiveDodge(stage); // Create an instance of FiveDodge
+    public void setUp() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+
+        // Initialize JavaFX
+        Platform.startup(() -> {});
+
+        // Run the Stage creation and FiveDodge initialization on the JavaFX Application Thread
+        Platform.runLater(() -> {
+            try {
+                Stage stage = new Stage(); // Create the mock Stage
+                fiveDodge = new FiveDodge(stage); // Initialize FiveDodge
+            } finally {
+                latch.countDown(); // Signal that setup is complete
+            }
+        });
+
+        latch.await(); // Wait for the setup to complete before proceeding
     }
 
     @Test

@@ -79,10 +79,10 @@ public class FiveDodge {
     public void attackWithWaterBottle() {
         if (conviction > 3) {
             gameStatus.setText("You attack successfully and deal damage!");
-            conviction += 1; // Increase conviction for a successful attack
+            conviction += 1; // Increase conviction for a successful attack //TODO fix this method so the conviction actually increases by one
         } else {
             gameStatus.setText("Your attack lacks power; you fail to hit.");
-            madness += 1; // Increase madness due to failure
+            madness += 1; // Increase madness due to failure //TODO make it do the expected behavior in the test which is decrement
         }
     }
 
